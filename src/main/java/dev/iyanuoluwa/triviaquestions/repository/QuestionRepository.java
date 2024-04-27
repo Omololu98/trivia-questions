@@ -27,7 +27,7 @@ public interface QuestionRepository extends JpaRepository<TriviaQuestion, Intege
     @Query("select t from TriviaQuestion t where t.category IN :category AND t.difficulty =:difficulty order by rand()")
     Page<TriviaQuestion> findByCategoryInAndDifficulty(List<String> category, String difficulty, Pageable pageable);
 
-    @Query("select t from TriviaQuestion t order by rand()")
+    @Query("select t from TriviaQuestion t")
     Page<TriviaQuestion> findAllQuestions(Pageable pageable);
 
     @Query("select t.correctAnswer from TriviaQuestion t where t.id =:questionId")

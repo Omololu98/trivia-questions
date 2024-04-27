@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -35,7 +36,7 @@ public class JobScheduler {
     private  List<String> listOfCategories = new ArrayList<>();
 
 
-    //TODO @Scheduled(fixedDelay = 30000) when the code is moving into production and change to Once every day
+    @Scheduled(fixedDelay = 30000)
     public void loadDataFromOpenTriviaQuestions(){
         log.info("loadDataFromOpenTriviaQuestions-- ran at {}", LocalDateTime.now());
         int number = 50;
@@ -93,13 +94,10 @@ public class JobScheduler {
         return "Something went Wrong!!";
     }
 
-
-
-
     private OpenTriviaResponse getQuestionsByNumber(int number,String token){
         ParameterizedTypeReference<OpenTriviaResponse> response = new ParameterizedTypeReference<OpenTriviaResponse>(){};
         String TRIVIA_QUESTION_API_URL = "https://opentdb.com/api.php";
-        String url = STR."\{TRIVIA_QUESTION_API_URL}?amount=\{number}&token=\{token}";
+        String url =TRIVIA_QUESTION_API_URL+"?amount="+number+"&token="+token;
         ResponseEntity<OpenTriviaResponse> trivialResponse= restTemplate.exchange(url, HttpMethod.GET,null,response);
         return trivialResponse.getBody();
     }

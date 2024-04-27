@@ -1,0 +1,33 @@
+
+version: "2.4"
+services:
+  trivia-quiz:
+    image: omotoso/trivia-quiz-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: PROD
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-trivia:3306/triviaQuestions
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+    depends_on:
+      - mysql
+    networks:
+      - my_network
+    container_name: triviapi
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Josephomololu98$
+      MYSQL_DATABASE: triviaQuestions
+      MYSQL_USER: omotoso
+      MYSQL_PASSWORD: 12345
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - my_network
+    container_name: mysql-trivia
+volumes:
+  mysql-data:
+networks:
+  my_network: {}
+
